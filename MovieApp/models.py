@@ -1,0 +1,30 @@
+from django.db import models
+
+# Create your models here.
+class Director(models.Model):
+    name = models.CharField(max_length=30)
+
+
+    def __str__(self):
+        return self.name
+
+    def rating(self):
+        return 0
+
+
+class Movie(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    duration = models.PositiveIntegerField(float)
+    director = models.ForeignKey(Director, related_name='movies', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
+
+
+class Review(models.Model):
+    text = models.TextField(max_length=500)
+    movie = models.ForeignKey(Movie, related_name='reviews', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.text
