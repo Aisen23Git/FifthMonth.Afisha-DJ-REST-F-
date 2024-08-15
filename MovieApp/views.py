@@ -21,10 +21,15 @@ def director_detail_api_view(request, id):
 @api_view(http_method_names=["GET"])
 def director_list_api_view(request):
     ## step 1: Collect all movies(QuerySet)
-    MovieApp = Director.objects.all()
+    director = Director.objects.select_related(
+        'category'
+    ).prefetch_related(
+        'tags',
+        'all_reviews'
+    ).all()
 
     ## step 2: Reformat products to list of Dictonaries
-    list_ = DirectorSerializer(instance = MovieApp, many = True).data
+    list_ = DirectorSerializer(instance = director, many = True).data
     ## step 3: Return Response/ MovieApp = Director.
     directors = Director.objects.all()
 #    data = DirectorSerializer(directors, many=True).data

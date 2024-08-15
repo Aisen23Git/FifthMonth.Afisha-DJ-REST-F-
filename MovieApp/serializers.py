@@ -23,3 +23,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ['id', 'text', 'movie', 'stars', 'director']
+        depth = 1
+        # fields = 'id title text price rating __str__'.split()
+        # exclude = 'id'.split()
+        # fields = ['id', 'title', 'rating']

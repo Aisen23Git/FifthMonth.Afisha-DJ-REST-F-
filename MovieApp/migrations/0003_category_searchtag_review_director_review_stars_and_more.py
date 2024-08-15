@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='review',
             name='director',
-            field=models.ForeignKey(default=0, on_delete=django.db.models.deletion.CASCADE, related_name='all_reviews', to='MovieApp.director'),
+            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='all_reviews', to='MovieApp.director'),
         ),
         migrations.AddField(
             model_name='review',
