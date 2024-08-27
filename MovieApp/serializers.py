@@ -31,7 +31,14 @@
 #======================================================================================
 
 from rest_framework import serializers
-from .models import Director, Movie, Review, STAR_CHOICES, Category
+from .models import Director, Movie, Review, STAR_CHOICES, Category, SearchTag
+from rest_framework.exceptions import ValidationError
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SearchTag
+        fields = '__all__'
+
 
 
 class DirectorSerializer(serializers.ModelSerializer):

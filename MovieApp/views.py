@@ -280,9 +280,38 @@
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Director, Movie, Review
+from .models import Director, Movie, Review,Category, SearchTag
 from rest_framework import status
-from .serializers import DirectorSerializer, MovieSerializer, ReviewSerializer
+from .serializers import DirectorSerializer, MovieSerializer, ReviewSerializer, TagSerializer
+from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.viewsets import ModelViewSet
+
+class TagModelViewSet():
+    queryset = SearchTag.objects.all()
+    serializer_class = TagSerializer
+    pagination_class = PageNumberPagination
+    lookup_field = 'id'
+
+class CustomPagination(PageNumberPagination):
+    def get_paginated_response(self, data):
+        return Response({
+            'count': self.page.paginator.count,
+            'next': self.get_next_link(),
+            'previous': self.get_previous_link(),
+            'total': data,
+        })
+
+class DirectorListAPIview(ListCreateAPIView):
+    queryset = Director.objects.all()
+    serializer_class = DirectorSerializer
+    pagination_class = CustomPagination
+
+class DirectorDetailAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Director.objects.all()
+    serializer_class = DirectorSerializer
+    lookup_field = 'id'
+
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def director_detail_api_view(request, id):
@@ -304,6 +333,15 @@ def director_detail_api_view(request, id):
         director.is_active = False
         director.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class DirectorListCreateAPIView(ListCreateAPIView):
+    queryset = director = Director.objects.select_related(
+        'category'
+    ).prefetch_related(
+        'tags',
+        'all_reviews'
+    ).filter(is_active = True)
+    serializer_class = DirectorSerializer
 
 @api_view(['GET', 'POST'])
 def director_list_create_api_view(request):
