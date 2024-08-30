@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from MovieApp import views
+from . import yasg
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,3 +32,4 @@ urlpatterns = [
     # path('api/v1/reviews/<int:id>/', views.review_detail_api_view), # GET->item, PUT->update, DELETE->destroy
 
 ]
+urlpatterns += yasg.urlpatterns
