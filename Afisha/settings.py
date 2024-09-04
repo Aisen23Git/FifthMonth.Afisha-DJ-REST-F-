@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ.get('DEBUG') == 'on' else False
 
-ALLOWED_HOSTS if DEBUG is False else True= []
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -104,11 +104,12 @@ WSGI_APPLICATION = 'Afisha.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASS'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': 5432,
+        'NAME': BASE_DIR / 'db.sqlite3'
+        # 'NAME': os.environ.get('DB_NAME'),
+        # 'USER': os.environ.get('DB_USER'),
+        # 'PASSWORD': os.environ.get('DB_PASS'),
+        # 'HOST': os.environ.get('DB_HOST'),
+        # 'PORT': 5432,
 
     }
 }
